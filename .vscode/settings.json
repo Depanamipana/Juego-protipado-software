@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Juego protipado 2d.sln"
+    "dotnet.defaultSolution": "Juego-protipado-software.sln"
 }
