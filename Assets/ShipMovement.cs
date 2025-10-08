@@ -4,17 +4,18 @@ using UnityEngine.Events;
 public class ShipMovement : MonoBehaviour
 {
     [Header("Movimiento")]
-    public float acceleration = 8f;        // Qué tan rápido acelera
-    public float maxSpeed = 12f;           // Velocidad máxima
-    public float friction = 4f;            // Frenado al soltar
-    public float rotationSpeed = 200f;     // Giro hacia la dirección
+    public float acceleration = 8f;
+    public float maxSpeed = 12f;
+    public float friction = 4f;
+    public float rotationSpeed = 200f;
 
     [Header("Combustible")]
     public float maxFuel = 100f;
-    public float fuel = 100f;              // Nivel actual
-    public float drainPerSecond = 1.5f;    // Consumo por segundo (tiempo)
-    public bool stopImmediatelyOnEmpty = true; // true: se detiene en seco al vaciar
-    public UnityEvent onFuelEmpty;         // Evento al quedarse sin combustible
+    public float fuel = 100f;
+    public float drainPerSecond = 1.5f;   // consumo pasivo por tiempo
+    public bool stopImmediatelyOnEmpty = true;
+    public UnityEvent onFuelEmpty;        // evento al vaciar
+    public UnityEvent onFuelHit;          // evento global cuando “te pegan” (opcional para SFX/UI)
 
     private Rigidbody2D rb;
     private Vector2 moveInput;
@@ -25,31 +26,18 @@ public class ShipMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = 0;
-        rb.linearDamping = 0; // controlamos fricción manualmente
+
+        // Si tu versión no tiene linearDamping/linearVelocity, usa rb.drag y rb.velocity.
+        rb.linearDamping = 0; // controlamos fricción manual
     }
 
     void Update()
     {
-        // Drenaje de combustible por tiempo
-        if (!outOfFuel && fuel > 0f)
-        {
-            fuel = Mathf.Max(0f, fuel - drainPerSecond * Time.deltaTime);
-            if (fuel <= 0f)
-            {
-                fuel = 0f;
-                outOfFuel = true;
+        // Consumo por tiempo (no dispara onFuelHit para no spamear)
+        if (!outOfFuel && fuel > 0f && drainPerSecond > 0f)
+            ConsumeFuel(drainPerSecond * Time.deltaTime, invokeHitEvent:false);
 
-                if (stopImmediatelyOnEmpty)
-                {
-                    currentVelocity = Vector2.zero;
-                    rb.linearVelocity = Vector2.zero;
-                }
-
-                onFuelEmpty?.Invoke();
-            }
-        }
-
-        // Leer input SOLO si hay combustible
+        // Leer input sólo si hay combustible
         if (!outOfFuel)
         {
             float moveX = Input.GetAxisRaw("Horizontal");
@@ -66,11 +54,10 @@ public class ShipMovement : MonoBehaviour
     {
         if (outOfFuel)
         {
-            // Si no detienes en seco, deja que se frene suave por fricción
             if (!stopImmediatelyOnEmpty)
             {
                 currentVelocity = Vector2.Lerp(currentVelocity, Vector2.zero, friction * Time.fixedDeltaTime);
-                rb.linearVelocity = currentVelocity;
+                rb.linearVelocity = currentVelocity; // usa rb.velocity si tu API no tiene linearVelocity
             }
             return;
         }
@@ -90,18 +77,45 @@ public class ShipMovement : MonoBehaviour
             currentVelocity = Vector2.Lerp(currentVelocity, Vector2.zero, friction * Time.fixedDeltaTime);
         }
 
-        rb.linearVelocity = currentVelocity;
+        rb.linearVelocity = currentVelocity; // usa rb.velocity si tu API no tiene linearVelocity
     }
 
-    // Utilidades para HUD y pickups
+    // =========================
+    //  API pública de combustible
+    // =========================
+    public void ConsumeFuel(float amount, bool invokeHitEvent = true)
+    {
+        if (outOfFuel || amount <= 0f) return;
+
+        fuel = Mathf.Max(0f, fuel - amount);
+
+        if (invokeHitEvent) onFuelHit?.Invoke();
+
+        if (fuel <= 0f)
+        {
+            fuel = 0f;
+            outOfFuel = true;
+
+            if (stopImmediatelyOnEmpty)
+            {
+                currentVelocity = Vector2.zero;
+                rb.linearVelocity = Vector2.zero; // usa rb.velocity si no existe linearVelocity
+            }
+
+            onFuelEmpty?.Invoke();
+        }
+    }
+
     public float FuelPercent => maxFuel <= 0f ? 0f : fuel / maxFuel;
+    public Vector2 MoveInput => moveInput;
+    public Vector2 Velocity => currentVelocity;
+    public float Speed01 => Mathf.Clamp01(currentVelocity.magnitude / Mathf.Max(0.01f, maxSpeed));
 
     public void Refuel(float amount)
     {
         if (amount <= 0f) return;
-        bool wasEmpty = outOfFuel && fuel <= 0f;
+        bool wasEmpty = (fuel <= 0f);
         fuel = Mathf.Clamp(fuel + amount, 0f, maxFuel);
-        if (fuel > 0f && wasEmpty)
-            outOfFuel = false; // vuelve a permitir movimiento tras recargar
+        if (fuel > 0f && wasEmpty) outOfFuel = false;
     }
 }

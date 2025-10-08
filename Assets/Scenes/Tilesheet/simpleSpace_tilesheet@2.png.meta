@@ -1335,7 +1335,55 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      simpleSpace_tilesheet@2_0: -6724977011510391068
+      simpleSpace_tilesheet@2_1: 1258698336905250735
+      simpleSpace_tilesheet@2_10: -6717783978940492743
+      simpleSpace_tilesheet@2_11: 5664285170205636442
+      simpleSpace_tilesheet@2_12: 8881427206023319523
+      simpleSpace_tilesheet@2_13: -3975290170696243003
+      simpleSpace_tilesheet@2_14: -6690884288088740916
+      simpleSpace_tilesheet@2_15: -3050462800139037434
+      simpleSpace_tilesheet@2_16: 2915690603978782905
+      simpleSpace_tilesheet@2_17: 4634163823759311236
+      simpleSpace_tilesheet@2_18: -7943054474274619872
+      simpleSpace_tilesheet@2_19: -5897575129586090212
+      simpleSpace_tilesheet@2_2: -8094466107760753850
+      simpleSpace_tilesheet@2_20: -5764914647280686300
+      simpleSpace_tilesheet@2_21: 2739820891739935408
+      simpleSpace_tilesheet@2_22: 1475420197990746304
+      simpleSpace_tilesheet@2_23: -4047436673555859008
+      simpleSpace_tilesheet@2_24: 7164931722427186836
+      simpleSpace_tilesheet@2_25: -6584425368374888142
+      simpleSpace_tilesheet@2_26: 6569454279096458265
+      simpleSpace_tilesheet@2_27: 3264519509510771036
+      simpleSpace_tilesheet@2_28: -4750776676473072768
+      simpleSpace_tilesheet@2_29: 5702332638335126910
+      simpleSpace_tilesheet@2_3: -4360252992433555923
+      simpleSpace_tilesheet@2_30: -935589817885742717
+      simpleSpace_tilesheet@2_31: 7470230206023608448
+      simpleSpace_tilesheet@2_32: 8436611838973274906
+      simpleSpace_tilesheet@2_33: -4803098668745932580
+      simpleSpace_tilesheet@2_34: 4430126257974792268
+      simpleSpace_tilesheet@2_35: -2560485892724108467
+      simpleSpace_tilesheet@2_36: 5346453237169402076
+      simpleSpace_tilesheet@2_37: 5126302734363613967
+      simpleSpace_tilesheet@2_38: 1826501697562822006
+      simpleSpace_tilesheet@2_39: 3682872753058494256
+      simpleSpace_tilesheet@2_4: -5926478734118462748
+      simpleSpace_tilesheet@2_40: 7076895573852519795
+      simpleSpace_tilesheet@2_41: -9218930080698272199
+      simpleSpace_tilesheet@2_42: 3127788079910742794
+      simpleSpace_tilesheet@2_43: 774465022303433352
+      simpleSpace_tilesheet@2_44: -3937566103000978318
+      simpleSpace_tilesheet@2_45: -4249004776793439197
+      simpleSpace_tilesheet@2_46: 1386386116378043869
+      simpleSpace_tilesheet@2_47: -8195532272931008859
+      simpleSpace_tilesheet@2_5: -1541907359832631524
+      simpleSpace_tilesheet@2_6: 956246607185426422
+      simpleSpace_tilesheet@2_7: 7054736046923976008
+      simpleSpace_tilesheet@2_8: -5668287566611245133
+      simpleSpace_tilesheet@2_9: 5654556504019703124
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
